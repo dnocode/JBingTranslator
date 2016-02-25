@@ -1,9 +1,27 @@
 package com.dnocode.microsoft;
 
+import com.dnocode.jhug.net.Http;
+import rx.Observable;
+
 /**
  * Created by dino on 24/02/16.
  */
 public class Translator implements ITranslator {
+
+
+    private Http http;
+
+
+
+   @Override
+    public Observable<String> detectLanguage(String textToTranslate) {
+        return null;
+    }
+
+    @Override
+    public Observable<String> translate(String text) {
+        return null;
+    }
 
 
    /* private static void DetectMethod(string authToken)
