@@ -1,25 +1,57 @@
 package com.dnocode.microsoft;
 
-import com.dnocode.jhug.net.Http;
+
+import com.dnocode.jhug.net.Req;
+import com.dnocode.microsoft.domain.BingoScope;
+import com.sun.deploy.net.URLEncoder;
 import rx.Observable;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * Created by dino on 24/02/16.
  */
-public class Translator implements ITranslator {
+public class Translator extends ATranslator {
 
+    private final String clientId;
+    private final String secretId;
 
-    private Http http;
+    public Translator(String clientId, String secretId){
 
-
+       this.clientId=clientId;
+        this.secretId=secretId;
+    }
 
    @Override
     public Observable<String> detectLanguage(String textToTranslate) {
-        return null;
+    final String method="Detect";
+    return  Observable.create(mainSub ->{
+       Bing.auth(clientId,secretId).token(BingoScope.bingTranslator).subscribe(
+               (token)->{
+                   try {
+                       Req.New
+                      .toUri(BING_TRANSLATOR_ENDPOINT+method).newParam("text", URLEncoder.encode(textToTranslate,"UTF-8"))
+
+                      .newHeader(HEADER_KEY,HEADER_AUTH_PREFIX+token.accessToken )
+                               .newHeader("Cache-Control","no-cache")
+                               .create().<String>fire()
+                               .subscribe(mainSub::onNext,mainSub::onError,mainSub::onCompleted);
+                   } catch (UnsupportedEncodingException e) {
+                      mainSub.onError(e);
+                   }
+               },mainSub::onError);
+    }
+    );
+
+
+
     }
 
     @Override
     public Observable<String> translate(String text) {
+
+        final String method="Detect";
         return null;
     }
 

@@ -14,5 +14,6 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile 'com.github.dnocode:JBingOAuth:develop-SNAPSHOT'
+    compile 'com.github.dnocode:JHugNet:develop-SNAPSHOT'
 
 }

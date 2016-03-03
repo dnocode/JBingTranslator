@@ -11,7 +11,6 @@ public interface ITranslator {
 
      Observable<String> detectLanguage(String textToTranslate);
 
-
       Observable<String>  translate(String text);
 
 
