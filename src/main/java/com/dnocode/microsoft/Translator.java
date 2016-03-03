@@ -31,10 +31,13 @@ public class Translator extends ATranslator {
                (token)->{
                    try {
                        Req.New
-                      .toUri(BING_TRANSLATOR_ENDPOINT+method).newParam("text", URLEncoder.encode(textToTranslate,"UTF-8"))
-
+                      .toUri(BING_TRANSLATOR_ENDPOINT+method)
+                               .newParam("text", URLEncoder.encode(textToTranslate,"UTF-8"))
+                               .newParam("contentType","json")
                       .newHeader(HEADER_KEY,HEADER_AUTH_PREFIX+token.accessToken )
                                .newHeader("Cache-Control","no-cache")
+                               .newHeader("Content-Type","application/json")
+                               .newHeader("Accept","application/json")
                                .create().<String>fire()
                                .subscribe(mainSub::onNext,mainSub::onError,mainSub::onCompleted);
                    } catch (UnsupportedEncodingException e) {
@@ -52,6 +55,7 @@ public class Translator extends ATranslator {
     public Observable<String> translate(String text) {
 
         final String method="Detect";
+
         return null;
     }
 
