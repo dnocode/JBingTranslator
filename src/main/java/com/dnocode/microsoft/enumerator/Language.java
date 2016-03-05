@@ -69,11 +69,15 @@ public enum Language {
             this.language = language;
         }
 
-    public Optional<Language> getByCode(String cod){
 
-      return   Stream.of(values()).filter(language->cod.toLowerCase().equals(cod.toLowerCase()))
-                .findFirst();
+    public String getCod(){return cod;}
 
+    public static Optional<Language> getByCode(String cod){
+
+      return   Stream
+              .of(values())
+              .filter(language->language.getCod().toLowerCase().equals(cod.toLowerCase()))
+              .findFirst();
     }
 
 

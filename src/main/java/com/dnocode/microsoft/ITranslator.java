@@ -1,6 +1,7 @@
 package com.dnocode.microsoft;
 
 
+import com.dnocode.microsoft.enumerator.Language;
 import rx.Observable;
 
 /**
@@ -9,9 +10,9 @@ import rx.Observable;
 public interface ITranslator {
 
 
-     Observable<String> detectLanguage(String textToTranslate);
+     Observable<Language> detectLanguage(String textToTranslate);
 
-      Observable<String>  translate(String text);
+      Observable<String>  translate(String text, Language from, Language to, String contentType, String format);
 
 
 
