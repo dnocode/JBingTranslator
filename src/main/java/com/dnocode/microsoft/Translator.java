@@ -40,9 +40,7 @@ public class Translator extends ATranslator {
                             .newHeader("Content-Type","application/json")
                             .newHeader("Accept","application/json")
                             .create().<String>fire()
-                            .map((xml)-> { return
-                                    xml.substring(xml.indexOf("/\">")+"/\">".length(),xml.indexOf("</string>"));
-                            })
+                            .map((xml)-> xml.substring(xml.indexOf("/\">")+"/\">".length(),xml.indexOf("</string>")))
                             .map(Language::getByCode)
                             .map(Optional::get)
                             .subscribe(mainSub::onNext,mainSub::onError,mainSub::onCompleted);
@@ -91,7 +89,7 @@ public class Translator extends ATranslator {
                             req .newParam("category", URLEncoder.encode(category, "UTF-8"));
                         }
                         req.create().<String>fire()
-
+                                .map((xml)-> xml.substring(xml.indexOf("/\">")+"/\">".length(),xml.indexOf("</string>")))
                                 .subscribe(mainSub::onNext,mainSub::onError,mainSub::onCompleted);
                     } catch (UnsupportedEncodingException e) {
                         mainSub.onError(e);

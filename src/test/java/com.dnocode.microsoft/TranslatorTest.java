@@ -2,9 +2,8 @@ package com.dnocode.microsoft;
 
 
 import com.dnocode.microsoft.enumerator.Language;
+import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Optional;
 
 /**
  * Created by dino on 24/02/16.
@@ -24,7 +23,7 @@ public class TranslatorTest {
         Language response= t
                 .detectLanguage("hello how are you fine thanks")
                 .doOnError((e)-> System.out.print("errore ci fu"+e.toString())).toBlocking().first();
-        System.out.print(response);
+        Assert.assertTrue("errror on language detection",response==Language.ITALIAN);
 
     }
 
@@ -35,8 +34,10 @@ public class TranslatorTest {
 
 
         Translator t=new Translator(urClientId,urSecretId);
-        String response= t.translate("hello come stai tutto ben io si ora vado al mare", Language.ENGLISH).toBlocking().first();
-        System.out.print(response);
+        String response= t.translate("ciao come stai?", Language.ENGLISH)
+                .toBlocking()
+                .first();
+        Assert.assertTrue("error on translation","hello how are you".equals(response));
 
     }
 
