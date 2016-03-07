@@ -4,9 +4,8 @@ package com.dnocode.microsoft;
 import com.dnocode.jhug.net.Req;
 import com.dnocode.microsoft.domain.BingoScope;
 import com.dnocode.microsoft.enumerator.Language;
-import com.sun.deploy.net.URLEncoder;
+import java.net.URLEncoder;
 import rx.Observable;
-
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidParameterException;
 import java.util.Optional;
