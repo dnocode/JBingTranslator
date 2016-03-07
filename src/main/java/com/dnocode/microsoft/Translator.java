@@ -65,7 +65,7 @@ public class Translator extends ATranslator {
     public Observable<String> translate(String text, Language from, Language to, String contentType, String category) {
 
         if(text==null){new InvalidParameterException("text parameter is required");}
-       if(isCharactersLimitExceedeed(text)){
+       if(limits().isCharactersLimitExceedeed(text)){
            try {
                throw new Exception("month limit exceeded!!!");
            } catch (Exception e) {
@@ -100,7 +100,7 @@ public class Translator extends ATranslator {
                         mainSub.onError(e);
                     }
                 },mainSub::onError)
-        ).doOnNext(translation->counterIncrement(text));
+        ).doOnNext(translation->limits().counterIncrement(text));
 
 
     }
