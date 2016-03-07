@@ -16,13 +16,12 @@ import java.util.Optional;
  */
 public class Translator extends ATranslator {
 
-    private final String clientId;
-    private final String secretId;
+
+
 
     public Translator(String clientId, String secretId){
 
-       this.clientId=clientId;
-        this.secretId=secretId;
+         super(clientId,secretId);
     }
 
    @Override
@@ -66,10 +65,16 @@ public class Translator extends ATranslator {
     public Observable<String> translate(String text, Language from, Language to, String contentType, String category) {
 
         if(text==null){new InvalidParameterException("text parameter is required");}
+       if(isCharactersLimitExceedeed(text)){
+           try {
+               throw new Exception("month limit exceeded!!!");
+           } catch (Exception e) {
+               return Observable.error(e);
+           }
+       }
 
         final String method="Translate";
-
-        return    Observable.create(mainSub -> Bing.auth(clientId,secretId).token(BingoScope.bingTranslator).subscribe(
+        return    Observable.<String>create(mainSub -> Bing.auth(clientId,secretId).token(BingoScope.bingTranslator).subscribe(
                 (token)->{
                     try {
                         Req.New req = Req.New
@@ -95,46 +100,10 @@ public class Translator extends ATranslator {
                         mainSub.onError(e);
                     }
                 },mainSub::onError)
-        );
+        ).doOnNext(translation->counterIncrement(text));
 
 
     }
-
-
-   /* private static void DetectMethod(string authToken)
-    {
-        Console.WriteLine("Enter Text to detect language:");
-        string textToDetect = Console.ReadLine();
-        //Keep appId parameter blank as we are sending access token in authorization header.
-        string uri = "http://api.microsofttranslator.com/v2/Http.svc/Detect?text=" + textToDetect;
-        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
-        httpWebRequest.Headers.Add("Authorization", authToken);
-        WebResponse response = null;
-        try
-        {
-            response = httpWebRequest.GetResponse();
-            using (Stream stream = response.GetResponseStream())
-            {
-                System.Runtime.Serialization.DataContractSerializer dcs = new System.Runtime.Serialization.DataContractSerializer(Type.GetType("System.String"));
-                string languageDetected = (string)dcs.ReadObject(stream);
-                Console.WriteLine(string.Format("Language detected:{0}", languageDetected));
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey(true);
-            }
-        }
-        catch
-        {
-            throw;
-        }
-        finally
-        {
-            if (response != null)
-            {
-                response.Close();
-                response = null;
-            }
-        }
-*/
 
 
 
