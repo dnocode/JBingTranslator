@@ -40,7 +40,7 @@ public enum Language {
       MT("mt","maltese"),
       NO("no","norwegian"),
       FA("fa","persian"),
-      PL("ms","polish"),
+      PL("pl","polish"),
       PT("pt","portuguese"),
       OTQ("otq","Querétaro Otomi"),
       ROMANIAN("ro","romanian"),
